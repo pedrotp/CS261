@@ -1,0 +1,13 @@
+*Answers:
+
+1) For 32 insertion operations, and an initial capacity of 8, the total cost if we double capacity at every step is 56 units, and the average cost is 1.75 per operation.
+
+As N grows, the number of operations grows linearly at a constant multiple of N, so the big-oh complexity is O(N) - linear.
+
+2) For 32 insertion operations, and an initial capacity of 8, the total cost if we increase capacity by 2 at every step is 260 units, and the average cost is 8.125 per operation.
+
+As N grows, the number of operations required increases exponentially, as we have to copy the entire array for every 2 insertions. Thus, the big-oh complexity is O(N^2) - quadratic.
+
+3) Let's assume N (capacity) is 40, so we start at N/2 = 20 items in the array. If we push one item and immediately pop it, the capacity should be cut in half to 20. Both of those operations require copying every element into a new array with the new capacity, so this becomes a very costly operation if we just continue to push an item to get to 21 (capacity doubles) and pop an item to get back to 20 (capacity is halved). This operation would be O(N^2).
+
+To make this better, I would propose changing the shrinking policy to wait until it is 1/4 full before shrinking to 1/2 capacity. For example, in the previous case where we started at 20 items with a capacity of 40, the array would not shrink to 20 until there were only 10 items in the array. When there are only 10 items in the array, the capacity would shrink to 20, and the item count would need to reach 20 again for capacity to double to 40. This would considerably reduce the number of times an array would double and shrink. 
