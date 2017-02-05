@@ -4,14 +4,14 @@
 #include <stdlib.h>
 
 /*
- * VISUAL STUDIO (VS) USERS: COMMENT OUT THE LINE BELOW 
+ * VISUAL STUDIO (VS) USERS: COMMENT OUT THE LINE BELOW
  * TO EXCLUDE THE MEMORY TEST CODE.
  */
 #define MEMORY_TEST_INCLUDED
 
 #ifdef MEMORY_TEST_INCLUDED
 // This header is needed for memory usage calculation.
-//#include <sys/resource.h> 
+//#include <sys/resource.h>
 #include "string.h"
 
 // Function to get current memory usage in KB (Max Resident Set Size)
@@ -40,10 +40,10 @@ int getMemoryUsage() { //Note: this value is in KB!
 }
 
 //long getMemoryUsage()
-//{ 
-//	int who = RUSAGE_SELF; 
-//	struct rusage usage; 
-//	getrusage(who, &usage);	
+//{
+//	int who = RUSAGE_SELF;
+//	struct rusage usage;
+//	getrusage(who, &usage);
 //	return usage.ru_maxrss;
 //}
 #endif
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 		printf("Usage: %s <number of elements to add>\n", argv[0]);
 		return 1;
 	}
-	
+
 	DynArr * a = newDynArr(1024);
 	int numElements = atoi(argv[1]);
 	for (int i = 0 ; i < numElements; i++)

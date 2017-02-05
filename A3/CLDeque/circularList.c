@@ -23,7 +23,11 @@ struct CircularList
  */
 static void init(struct CircularList* list)
 {
-	// FIXME: you must write this
+	list->sentinel = malloc(sizeof(struct Link));
+	assert(list->sentinel);
+	list->sentinel->next = list->sentinel;
+	list->sentinel->prev = list->sentinel;
+	list->size = 0;
 }
 
 /**
@@ -31,8 +35,10 @@ static void init(struct CircularList* list)
  */
 static struct Link* createLink(TYPE value)
 {
-	// FIXME: you must write this
-	return NULL;
+	struct Link* newLink = malloc(sizeof(struct Link));
+	newLink->value = value;
+	newLink->next = newLink->prev = NULL;
+	return newLink;
 }
 
 /**
@@ -41,7 +47,12 @@ static struct Link* createLink(TYPE value)
  */
 static void addLinkAfter(struct CircularList* list, struct Link* link, TYPE value)
 {
-	// FIXME: you must write this
+	struct Link* newLink = createLink(value);
+	link->next->prev = newLink;
+	newLink->next = link->next;
+	newLink->prev = link;
+	link->next = newLink;
+	list->size++;
 }
 
 /**
@@ -50,7 +61,10 @@ static void addLinkAfter(struct CircularList* list, struct Link* link, TYPE valu
  */
 static void removeLink(struct CircularList* list, struct Link* link)
 {
-	// FIXME: you must write this
+	link->prev->next = link->next;
+	link->next->prev = link->prev;
+	free(link);
+	list->size--;
 }
 
 /**
@@ -68,7 +82,12 @@ struct CircularList* circularListCreate()
  */
 void circularListDestroy(struct CircularList* list)
 {
-	// FIXME: you must write this
+	while (!circularListIsEmpty(list))
+	{
+		circularListRemoveFront(list);
+	}
+	free(list->sentinel);
+	free(list);
 }
 
 /**
@@ -76,7 +95,7 @@ void circularListDestroy(struct CircularList* list)
  */
 void circularListAddFront(struct CircularList* list, TYPE value)
 {
-	// FIXME: you must write this
+	addLinkAfter(list, list->sentinel, value);
 }
 
 /**
@@ -84,7 +103,7 @@ void circularListAddFront(struct CircularList* list, TYPE value)
  */
 void circularListAddBack(struct CircularList* list, TYPE value)
 {
-	// FIXME: you must write this
+	addLinkAfter(list, list->sentinel->prev, value);
 }
 
 /**
@@ -92,8 +111,8 @@ void circularListAddBack(struct CircularList* list, TYPE value)
  */
 TYPE circularListFront(struct CircularList* list)
 {
-	// FIXME: you must write this
-	return 0;
+	assert(!circularListIsEmpty(list));
+	return list->sentinel->next->value;
 }
 
 /**
@@ -101,8 +120,8 @@ TYPE circularListFront(struct CircularList* list)
  */
 TYPE circularListBack(struct CircularList* list)
 {
-	// FIXME: you must write this
-	return 0;
+	assert(!circularListIsEmpty(list));
+	return list->sentinel->prev->value;
 }
 
 /**
@@ -110,7 +129,8 @@ TYPE circularListBack(struct CircularList* list)
  */
 void circularListRemoveFront(struct CircularList* list)
 {
-	// FIXME: you must write this
+	assert(!circularListIsEmpty(list));
+	removeLink(list, list->sentinel->next);
 }
 
 /**
@@ -118,7 +138,8 @@ void circularListRemoveFront(struct CircularList* list)
  */
 void circularListRemoveBack(struct CircularList* list)
 {
-	// FIXME: you must write this
+	assert(!circularListIsEmpty(list));
+	removeLink(list, list->sentinel->prev);
 }
 
 /**
@@ -126,8 +147,7 @@ void circularListRemoveBack(struct CircularList* list)
  */
 int circularListIsEmpty(struct CircularList* list)
 {
-	// FIXME: you must write this
-	return 0;
+	return list->sentinel->next == list->sentinel && list->sentinel->next == list->sentinel;
 }
 
 /**
@@ -135,7 +155,12 @@ int circularListIsEmpty(struct CircularList* list)
  */
 void circularListPrint(struct CircularList* list)
 {
-	// FIXME: you must write this
+	struct Link* link = list->sentinel;
+	while(link->next != list->sentinel) {
+		link = link->next;
+		printf("%d ", (int)link->value);
+	}
+	printf("\n");
 }
 
 /**
@@ -143,5 +168,11 @@ void circularListPrint(struct CircularList* list)
  */
 void circularListReverse(struct CircularList* list)
 {
-	// FIXME: you must write this
+	struct Link* link = list->sentinel;
+	do {
+		struct Link* temp = link->prev;
+		link->prev = link->next;
+		link->next = temp;
+		link = link->next;
+	} while(link != list->sentinel);
 }

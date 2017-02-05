@@ -155,7 +155,7 @@ void linkedListPrint(struct LinkedList* list)
 	struct Link* temp = list->frontSentinel;
 	while (temp->next != list->backSentinel) {
 		temp = temp->next;
-		printf("%d ", (int) temp->value);
+		printf("%d ", (int)temp->value);
 	}
 	printf("\n");
 }
